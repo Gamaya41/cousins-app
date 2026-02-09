@@ -10,7 +10,6 @@ export default function Navbar() {
     { icon: <Home size={24} />, label: 'Início', path: '/' },
     { icon: <Beer size={24} />, label: 'Cardápio', path: '/cardapio' },
     { icon: <Mic2 size={24} />, label: 'Karaokê', path: '/karaoke' },
-    // Substituímos Fidelidade por Social para focar na interação com fotos
     { icon: <Instagram size={24} />, label: 'Social', path: '/social' }, 
     { icon: <User size={24} />, label: 'Perfil', path: '/perfil' },
   ];
@@ -24,7 +23,7 @@ export default function Navbar() {
             href={item.path}
             className={`flex flex-col items-center justify-center w-full h-full transition-all ${
               pathname === item.path 
-                ? 'text-yellow-500 scale-105' // Adicionei um leve zoom no item ativo
+                ? 'text-yellow-500 scale-105' 
                 : 'text-zinc-500 hover:text-zinc-300'
             }`}
           >

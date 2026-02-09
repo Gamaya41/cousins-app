@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "./components/Navbar"; // Caminho corrigido para ./components
+import Navbar from "./components/Navbar"; // Importe corrigido para a pasta interna
 
 export const metadata: Metadata = {
-  title: "Bar do Amigo - Fidelidade",
-  description: "Clube de benefícios Cousins Lounge Bar",
+  title: "Cousins Lounge Bar",
+  description: "Sistema de fidelidade e social para clientes VIP",
 };
 
 export default function RootLayout({
@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <body className="bg-black">
+      <body className="bg-black antialiased">
         <Navbar />
         {children}
       </body>
