@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import Navbar from "./components/Navbar"; // Caminho corrigido para ./components
 
 export const metadata: Metadata = {
   title: "Bar do Amigo - Fidelidade",
-  description: "Seu hub de diversão e recompensas",
+  description: "Clube de benefícios Cousins Lounge Bar",
 };
 
 export default function RootLayout({
@@ -13,8 +13,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-br" className="dark">
-      <body className="bg-black text-white antialiased min-h-screen">
+    <html lang="pt-br">
+      <body className="bg-black">
         <Navbar />
         {children}
       </body>

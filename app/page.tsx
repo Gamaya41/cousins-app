@@ -1,98 +1,104 @@
 'use client';
 
-import { Flame, Star, Trophy, Bell, Calendar } from 'lucide-react'; 
+import { Flame, Star, Trophy, Calendar, Zap, ChevronRight, User } from 'lucide-react'; 
 import Link from 'next/link';
 import Image from 'next/image';
-import LiveStatus from '../components/LiveStatus';
+import LiveStatus from './components/LiveStatus'; 
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-black text-white pb-32 flex flex-col items-center overflow-x-hidden">
+    <main className="min-h-screen bg-[#050505] text-white pb-32 flex flex-col items-center overflow-x-hidden font-sans">
       
-      {/* 1. SEÇÃO DE BANNERS - MAIS ALTA E IMPACTANTE */}
-      <section className="w-full max-w-md mt-6 px-6 relative">
-        <div className="flex items-center justify-between mb-4 px-2">
-          <h2 className="text-[10px] uppercase font-black tracking-[0.2em] text-zinc-500">Próximas Atrações</h2>
-          <Calendar size={14} className="text-zinc-500" />
-        </div>
+      {/* 1. HEADER / LOGO - ESTILO PREMIUM */}
+      <header className="w-full pt-10 pb-6 flex flex-col items-center relative overflow-hidden">
+        {/* Glow de fundo para destacar a logo */}
+        <div className="absolute top-[-50px] w-[300px] h-[300px] bg-yellow-600/10 blur-[100px] rounded-full"></div>
         
-        <div className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-0 pb-12">
-          {/* Banner 1: Karaokê */}
-          <div className="min-w-full snap-center relative h-72 rounded-[3rem] overflow-hidden border border-white/5 flex-shrink-0">
-            <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover opacity-60">
-              <source src="/karaoke.mp4" type="video/mp4" />
-            </video>
-            <div className="relative z-10 p-10 h-full flex flex-col justify-end bg-gradient-to-t from-black via-transparent to-transparent">
-              <p className="text-yellow-500 text-[10px] font-black uppercase tracking-widest">Amanhã • 20h</p>
-              <h3 className="text-3xl font-black italic uppercase mt-1">Noite do Karaokê</h3>
-            </div>
-          </div>
-
-          {/* Banner 2: Double Chopp */}
-          <div className="min-w-full snap-center relative h-72 rounded-[3rem] overflow-hidden border border-white/5 flex-shrink-0">
-            <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover opacity-60">
-              <source src="/chopp.mp4" type="video/mp4" />
-            </video>
-            <div className="relative z-10 p-10 h-full flex flex-col justify-end bg-gradient-to-t from-black via-transparent to-transparent">
-              <p className="text-yellow-500 text-[10px] font-black uppercase tracking-widest">Quarta • 18h</p>
-              <h3 className="text-3xl font-black italic uppercase mt-1">Double Chopp</h3>
-            </div>
-          </div>
+        <div className="relative w-[280px] h-[140px] drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+          <Image 
+            src="/logo.png" 
+            alt="Cousins Lounge Bar" 
+            fill
+            priority
+            unoptimized
+            className="object-contain"
+          />
         </div>
+      </header>
 
-        {/* 2. LOGO ESTRATÉGICA - TAMANHO GRANDE E POSIÇÃO DE IMPACTO */}
-        <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 z-30 drop-shadow-[0_0_35px_rgba(234,179,8,0.6)]">
-          <div className="relative w-[320px] h-[160px] hover:scale-105 transition-transform duration-500">
-            <Image 
-              src="/logo.png" 
-              alt="Cousins Lounge Bar" 
-              fill
-              priority
-              unoptimized
-              className="object-contain"
-            />
+      {/* 2. BANNER DE ATRAÇÃO - ESTILO CINEMATOGRÁFICO */}
+      <section className="w-full max-w-md px-5 mt-4">
+        <div className="relative h-64 rounded-[2.5rem] overflow-hidden group shadow-2xl">
+          <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-70">
+            <source src="/karaoke.mp4" type="video/mp4" />
+          </video>
+          
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+          
+          <div className="relative h-full p-8 flex flex-col justify-end">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="bg-yellow-600 text-black text-[9px] font-black uppercase px-2 py-1 rounded-md tracking-tighter">Amanhã • 20h</span>
+            </div>
+            <h3 className="text-3xl font-black italic uppercase tracking-tighter leading-none mb-2">Noite do <br/>Karaokê</h3>
+            <div className="h-1 w-12 bg-yellow-600 rounded-full"></div>
           </div>
         </div>
       </section>
 
-      {/* 3. STATUS AO VIVO - ESPAÇAMENTO AJUSTADO */}
-      <section className="mt-14 w-full max-w-md px-6">
+      {/* 3. STATUS AO VIVO - INTEGRADO AO DESIGN */}
+      <section className="mt-8 w-full max-w-md px-5">
         <LiveStatus />
       </section>
 
-      {/* 4. DASHBOARD DE AÇÕES */}
-      <div className="w-full max-w-md px-6 mt-10 space-y-6">
-        <button className="w-full bg-yellow-600 hover:bg-yellow-500 text-black font-black py-6 rounded-[2.5rem] text-xl shadow-[0_15px_40px_rgba(202,138,4,0.3)] transition-all active:scale-95 flex items-center justify-center gap-3">
-          <Flame size={28} fill="black" />
-          FAZER CHECK-IN
-        </button>
+      {/* 4. DASHBOARD DE AÇÕES & STATUS */}
+      <div className="w-full max-w-md px-5 mt-8 space-y-4">
+        
+        {/* BOTÃO CHECK-IN - DESIGN BOTÃO DE OURO */}
+        <Link href="/como-ganhar" className="block relative group">
+          <div className="absolute inset-0 bg-yellow-600 rounded-[2rem] blur-md opacity-20 group-active:opacity-40 transition-opacity"></div>
+          <button className="relative w-full bg-gradient-to-b from-yellow-500 to-yellow-700 text-black font-black py-6 rounded-[2rem] text-xl flex items-center justify-center gap-3 active:scale-[0.98] transition-all shadow-xl">
+            <Flame size={24} fill="black" />
+            <span className="tracking-tighter uppercase italic">Fazer Check-in</span>
+          </button>
+        </Link>
 
+        {/* CARDS DE STATUS - GRID MODERNO */}
         <div className="grid grid-cols-2 gap-4">
-          <Link href="/perfil" className="bg-zinc-900/60 border border-white/5 p-8 rounded-[3rem] text-center active:scale-95 transition-all">
-            <p className="text-zinc-500 text-[10px] uppercase font-black tracking-widest mb-2">Meus Coins</p>
-            <div className="flex items-center justify-center gap-2">
-              <Star className="text-yellow-500" size={24} fill="currentColor" />
-              <span className="text-4xl font-black text-yellow-500 tracking-tighter">120</span>
+          <Link href="/perfil" className="bg-zinc-900/40 border border-white/5 p-6 rounded-[2.5rem] flex flex-col items-center justify-center backdrop-blur-sm active:bg-zinc-800 transition-colors">
+            <div className="flex items-center gap-2 mb-1">
+              <Star className="text-yellow-500" size={16} fill="currentColor" />
+              <span className="text-zinc-500 text-[9px] uppercase font-black tracking-widest">Saldo</span>
             </div>
+            <span className="text-4xl font-black text-white tracking-tighter">120</span>
+            <span className="text-[8px] text-zinc-600 font-bold uppercase mt-1 tracking-tighter italic">Coins Cousins</span>
           </Link>
           
-          <Link href="/karaoke" className="bg-zinc-900/60 border border-white/5 p-8 rounded-[3rem] text-center active:scale-95 transition-all">
-            <p className="text-zinc-500 text-[10px] uppercase font-black tracking-widest mb-2 text-center">Ranking</p>
-            <div className="flex items-center justify-center gap-2">
-              <Trophy className="text-white/20" size={24} />
-              <span className="text-4xl font-black text-white tracking-tighter">#04</span>
+          <Link href="/ranking" className="bg-zinc-900/40 border border-white/5 p-6 rounded-[2.5rem] flex flex-col items-center justify-center backdrop-blur-sm active:bg-zinc-800 transition-colors">
+            <div className="flex items-center gap-2 mb-1">
+              <Trophy className="text-zinc-700" size={16} />
+              <span className="text-zinc-500 text-[9px] uppercase font-black tracking-widest">Global</span>
             </div>
+            <span className="text-4xl font-black text-white tracking-tighter">#04</span>
+            <span className="text-[8px] text-zinc-600 font-bold uppercase mt-1 tracking-tighter italic">No Ranking</span>
           </Link>
         </div>
 
-        {/* Notificação Social */}
-        <div className="bg-zinc-900/40 border border-white/5 p-5 rounded-[2rem] flex items-center gap-4">
-          <Bell size={18} className="text-yellow-500" />
-          <p className="text-[11px] text-zinc-400 font-bold uppercase tracking-tight">
-            Jhoni marcou o bar nos Stories! <span className="text-yellow-500">+5 Coins</span>
-          </p>
-        </div>
+        {/* FEED SOCIAL / NOTIFICAÇÃO - TIPO FLOATING NOTIFICATION */}
+        <Link href="/como-ganhar" className="block">
+          <div className="bg-zinc-900/30 border border-white/5 p-4 rounded-2xl flex items-center justify-between group active:bg-zinc-900/60 transition-colors">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-yellow-600/10 flex items-center justify-center">
+                <Zap size={14} className="text-yellow-500" />
+              </div>
+              <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-tight">
+                Jhoni marcou o bar nos Stories! <span className="text-yellow-500 font-black">+5 COINS</span>
+              </p>
+            </div>
+            <ChevronRight size={14} className="text-zinc-800 group-hover:text-zinc-500 transition-colors" />
+          </div>
+        </Link>
       </div>
+
     </main>
   );
 }
