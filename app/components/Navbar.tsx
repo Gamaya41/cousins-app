@@ -1,5 +1,5 @@
 'use client';
-import { Home, Beer, Mic2, User, Star } from 'lucide-react';
+import { Home, Beer, Mic2, User, Instagram } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -10,7 +10,8 @@ export default function Navbar() {
     { icon: <Home size={24} />, label: 'Início', path: '/' },
     { icon: <Beer size={24} />, label: 'Cardápio', path: '/cardapio' },
     { icon: <Mic2 size={24} />, label: 'Karaokê', path: '/karaoke' },
-    { icon: <Star size={24} />, label: 'Fidelidade', path: '/fidelidade' },
+    // Substituímos Fidelidade por Social para focar na interação com fotos
+    { icon: <Instagram size={24} />, label: 'Social', path: '/social' }, 
     { icon: <User size={24} />, label: 'Perfil', path: '/perfil' },
   ];
 
@@ -22,7 +23,9 @@ export default function Navbar() {
             key={item.path} 
             href={item.path}
             className={`flex flex-col items-center justify-center w-full h-full transition-all ${
-              pathname === item.path ? 'text-yellow-500' : 'text-zinc-500'
+              pathname === item.path 
+                ? 'text-yellow-500 scale-105' // Adicionei um leve zoom no item ativo
+                : 'text-zinc-500 hover:text-zinc-300'
             }`}
           >
             {item.icon}

@@ -1,6 +1,6 @@
 'use client';
 
-import { Instagram, Mic2, Star, Users, ChevronLeft, Gift, Zap, Utensils } from 'lucide-react';
+import { Instagram, Mic2, Star, Users, Gift, Zap, Utensils } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ComoGanhar() {
@@ -12,24 +12,20 @@ export default function ComoGanhar() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white flex flex-col items-center overflow-x-hidden">
+    <main className="min-h-screen bg-[#050505] text-white flex flex-col items-center overflow-x-hidden font-sans">
       <div className="w-full max-w-md p-6 pb-32">
-        
-        <header className="mt-6 mb-10 flex items-center gap-4">
-          <Link href="/" className="p-3 bg-zinc-900/50 rounded-full border border-white/5 text-zinc-400 active:scale-90 transition-all">
-            <ChevronLeft size={20} />
-          </Link>
-          <div>
-            <h1 className="text-xl font-black uppercase italic tracking-tighter">Missões</h1>
-            <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest italic">Ganhe moedas Cousins</p>
-          </div>
+        <header className="w-full text-center mt-12 mb-10 px-6">
+          <h1 className="text-3xl font-black uppercase italic tracking-tighter leading-none inline-block relative">
+            Missões
+            <div className="absolute -bottom-2 left-0 w-full h-1 bg-yellow-600 rounded-full shadow-[0_0_10px_rgba(234,179,8,0.5)]"></div>
+          </h1>
+          <p className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.3em] mt-5 italic">Como ganhar moedas</p>
         </header>
 
         <div className="bg-gradient-to-br from-zinc-900 to-black border border-white/10 p-8 rounded-[3rem] mb-10 relative overflow-hidden shadow-2xl">
           <p className="text-[9px] font-black text-yellow-500 uppercase tracking-[0.2em] mb-2">Seu Progresso</p>
           <h2 className="text-2xl font-black italic uppercase leading-none">Rumo ao Top 3</h2>
           <div className="flex items-center gap-2 mt-4 text-zinc-400"><Zap size={14} className="text-yellow-500" /><span className="text-[10px] font-bold uppercase tracking-tight">Complete missões e suba no ranking!</span></div>
-          <Star size={100} className="absolute -right-8 -top-8 opacity-5 text-white" fill="currentColor" />
         </div>
 
         <section className="space-y-4">
@@ -45,8 +41,8 @@ export default function ComoGanhar() {
 
         <div className="mt-12 bg-yellow-600 p-8 rounded-[3rem] text-center shadow-xl shadow-yellow-600/20">
           <Gift className="mx-auto mb-3 text-black" size={32} />
-          <h4 className="text-black font-black uppercase italic text-lg leading-tight">Aniversariante?</h4>
-          <p className="text-black/70 text-[10px] font-black uppercase tracking-tight mt-1">Bônus triplo na semana <br/>do seu aniversário!</p>
+          <h4 className="text-black font-black uppercase italic text-lg leading-tight">Aniversário do Kael?</h4>
+          <p className="text-black/70 text-[10px] font-black uppercase tracking-tight mt-1">Bônus triplo para sócios na <br/>semana de abril!</p>
         </div>
       </div>
     </main>
