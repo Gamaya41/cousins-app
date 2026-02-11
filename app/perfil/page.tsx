@@ -1,15 +1,18 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import Cropper from 'react-easy-crop'; // Importando o cortador
 import { 
   LogOut, User, Settings, Star, Trophy, 
-  Music, ChevronRight, Crown, Camera, ShieldCheck, History
+  Music, ChevronRight, Crown, Camera, ShieldCheck, History, X, Check
 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Perfil() {
-  // 1. ESTADO DA FOTO (Inicia tentando ler o que foi salvo antes)
   const [fotoPerfil, setFotoPerfil] = useState<string | null>(null);
+  const [imagemTemporaria, setImagemTemporaria] = useState<string | null>(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -17,13 +20,21 @@ export default function Perfil() {
     if (savedPhoto) setFotoPerfil(savedPhoto);
   }, []);
 
-  // 2. FUNÇÃO DE UPLOAD
+  // Função para abrir o arquivo e carregar no editor temporário
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const url = URL.createObjectURL(file);
-      setFotoPerfil(url);
-      localStorage.setItem('userPhoto', url); // Vínculo para outras páginas
+      setImagemTemporaria(url);
+    }
+  };
+
+  // Função para confirmar o ajuste e salvar
+  const confirmarAjuste = () => {
+    if (imagemTemporaria) {
+      setFotoPerfil(imagemTemporaria);
+      localStorage.setItem('userPhoto', imagemTemporaria);
+      setImagemTemporaria(null); // Fecha o editor
     }
   };
 
@@ -33,9 +44,58 @@ export default function Perfil() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white flex flex-col items-center pb-32 font-sans overflow-x-hidden">
+    <main className="min-h-screen bg-[#050505] text-white flex flex-col items-center pb-32 font-sans overflow-x-hidden relative">
       
-      {/* INPUT DE ARQUIVO ESCONDIDO */}
+      {/* MODAL DE CENTRALIZAÇÃO DA FOTO */}
+      {imagemTemporaria && (
+        <div className="fixed inset-0 z-[100] bg-black/95 flex flex-col items-center justify-center p-6 backdrop-blur-md">
+          <h3 className="text-lg font-black uppercase italic mb-8 tracking-tighter text-yellow-500">Ajuste sua Foto</h3>
+          
+          <div className="relative w-full max-w-sm h-80 bg-zinc-900 rounded-3xl overflow-hidden border border-white/10">
+            <Cropper
+              image={imagemTemporaria}
+              crop={crop}
+              zoom={zoom}
+              aspect={1}
+              onCropChange={setCrop}
+              onZoomChange={setZoom}
+              cropShape="round"
+              showGrid={false}
+            />
+          </div>
+
+          <div className="w-full max-w-sm mt-8 space-y-6">
+            <div className="flex flex-col gap-2">
+              <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500 text-center">Zoom</p>
+              <input 
+                type="range" 
+                value={zoom} 
+                min={1} 
+                max={3} 
+                step={0.1}
+                onChange={(e) => setZoom(Number(e.target.value))}
+                className="w-full h-1 bg-zinc-800 accent-yellow-600 appearance-none rounded-full"
+              />
+            </div>
+
+            <div className="flex gap-4">
+              <button 
+                onClick={() => setImagemTemporaria(null)}
+                className="flex-1 bg-zinc-900 border border-white/5 py-4 rounded-2xl font-black uppercase text-[10px] flex items-center justify-center gap-2 active:scale-95 transition-all"
+              >
+                <X size={16} /> Cancelar
+              </button>
+              <button 
+                onClick={confirmarAjuste}
+                className="flex-1 bg-yellow-600 text-black py-4 rounded-2xl font-black uppercase text-[10px] flex items-center justify-center gap-2 active:scale-95 transition-all"
+              >
+                <Check size={16} /> Confirmar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <input 
         type="file" 
         ref={fileInputRef} 
@@ -46,7 +106,7 @@ export default function Perfil() {
 
       <div className="w-full max-w-md p-6 flex flex-col items-center">
         
-        {/* IDENTIFICAÇÃO VIP COM FOTO DINÂMICA */}
+        {/* IDENTIFICAÇÃO VIP */}
         <div className="mt-12 mb-8 flex flex-col items-center text-center">
           <div className="relative mb-4 group cursor-pointer" onClick={() => fileInputRef.current?.click()}>
             <div className="w-28 h-28 rounded-full border-2 border-yellow-500 p-1 shadow-[0_0_30px_rgba(234,179,8,0.2)] bg-zinc-900">
@@ -84,7 +144,7 @@ export default function Perfil() {
           </Link>
         </div>
 
-        {/* VOICE HISTORY (MANTIDO) */}
+        {/* VOICE HISTORY */}
         <section className="w-full mb-10">
           <div className="flex items-center justify-between px-4 mb-4">
             <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600 italic leading-none text-center">Voice History</h3>
@@ -108,7 +168,7 @@ export default function Perfil() {
           </div>
         </section>
 
-        {/* MENU DE OPÇÕES (MANTIDO) */}
+        {/* MENU DE OPÇÕES */}
         <div className="w-full space-y-3">
           <Link href="/perfil/social" className="block w-full">
             <button className="w-full bg-zinc-900/30 border border-white/5 p-6 rounded-[2.2rem] flex items-center justify-between group active:scale-95 transition-all">
