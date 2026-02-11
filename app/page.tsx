@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Flame, Mic2, Star, Trophy, ChevronRight, 
   Bell, Search, User, Crown, X, Zap, CheckCircle2, Music 
@@ -11,8 +11,16 @@ export default function Home() {
   const [fezCheckIn, setFezCheckIn] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  
+  // 1. ESTADO DA FOTO SINCRONIZADA
+  const [fotoPerfil, setFotoPerfil] = useState<string | null>(null);
 
-  // Notificações simuladas para o Centro de Alertas
+  useEffect(() => {
+    // Busca a foto que você salvou na página de Perfil
+    const savedPhoto = localStorage.getItem('userPhoto');
+    if (savedPhoto) setFotoPerfil(savedPhoto);
+  }, []);
+
   const notificacoes = [
     { id: 1, text: "Ganhou +5 Coins por Stories", time: "2 min", icon: <Zap size={14}/> },
     { id: 2, text: "Sua vez no Karaokê chegando!", time: "10 min", icon: <Mic2 size={14}/> }
@@ -21,7 +29,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#050505] text-white flex flex-col items-center pb-32 font-sans overflow-x-hidden relative">
       
-      {/* 1. MODAL DE BUSCA (CAMADA SUPERIOR) */}
+      {/* 1. MODAL DE BUSCA */}
       {showSearch && (
         <div className="fixed inset-0 bg-black/95 backdrop-blur-xl z-[100] p-6 flex flex-col items-center animate-in fade-in zoom-in duration-300">
           <div className="w-full max-w-md">
@@ -44,7 +52,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* 2. MODAL DE NOTIFICAÇÕES (CAMADA SUPERIOR) */}
+      {/* 2. MODAL DE NOTIFICAÇÕES */}
       {showNotifications && (
         <div className="fixed inset-0 bg-black/95 backdrop-blur-xl z-[100] p-6 flex flex-col items-center animate-in slide-in-from-right duration-300">
           <div className="w-full max-w-md">
@@ -69,13 +77,18 @@ export default function Home() {
         </div>
       )}
 
-      {/* 3. HEADER COM STATUS DE PRESENÇA DINÂMICO */}
+      {/* 3. HEADER COM FOTO VINCULADA */}
       <header className="w-full max-w-md px-6 pt-12 pb-8 flex items-center justify-between z-10">
         <Link href="/perfil" className="flex items-center gap-4 group">
           <div className="relative">
             <div className="w-14 h-14 rounded-2xl border-2 border-yellow-500 p-1 bg-zinc-900 shadow-lg">
               <div className="w-full h-full rounded-xl bg-zinc-800 flex items-center justify-center overflow-hidden border border-white/5">
-                <User size={24} className="text-zinc-600" />
+                {/* LOGICA DA FOTO: Se existir no localStorage, mostra ela. Se não, mostra o ícone User */}
+                {fotoPerfil ? (
+                  <img src={fotoPerfil} alt="Perfil" className="w-full h-full object-cover" />
+                ) : (
+                  <User size={24} className="text-zinc-600" />
+                )}
               </div>
             </div>
             <div className="absolute -top-1 -right-1 bg-yellow-600 rounded-lg p-1 border-2 border-[#050505] shadow-lg">
@@ -145,7 +158,7 @@ export default function Home() {
           </Link>
         </div>
 
-        {/* 6. DASHBOARD DE FIDELIDADE (SALDO VS XP) */}
+        {/* 6. DASHBOARD DE FIDELIDADE */}
         <div className="w-full px-6 grid grid-cols-2 gap-4 mb-10">
           <div className="bg-zinc-900/30 border border-white/5 p-6 rounded-[2.5rem] flex flex-col items-center shadow-inner">
             <Star size={20} className="text-yellow-500 mb-2" fill="currentColor" />

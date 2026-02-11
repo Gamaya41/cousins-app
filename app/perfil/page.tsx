@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useRef, useEffect } from 'react';
 import { 
   LogOut, User, Settings, Star, Trophy, 
   Music, ChevronRight, Crown, Camera, ShieldCheck, History
@@ -7,7 +8,25 @@ import {
 import Link from 'next/link';
 
 export default function Perfil() {
-  // Restaurando sua lista de músicas do Voice History
+  // 1. ESTADO DA FOTO (Inicia tentando ler o que foi salvo antes)
+  const [fotoPerfil, setFotoPerfil] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const savedPhoto = localStorage.getItem('userPhoto');
+    if (savedPhoto) setFotoPerfil(savedPhoto);
+  }, []);
+
+  // 2. FUNÇÃO DE UPLOAD
+  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setFotoPerfil(url);
+      localStorage.setItem('userPhoto', url); // Vínculo para outras páginas
+    }
+  };
+
   const musicas = [
     { nome: "Tim Maia - Descobridor", nota: "9.5", data: "Ontem" },
     { nome: "Legião - Tempo Perdido", nota: "8.8", data: "05/02" },
@@ -16,15 +35,27 @@ export default function Perfil() {
   return (
     <main className="min-h-screen bg-[#050505] text-white flex flex-col items-center pb-32 font-sans overflow-x-hidden">
       
-      {/* Container Centralizado para monitor e celular */}
+      {/* INPUT DE ARQUIVO ESCONDIDO */}
+      <input 
+        type="file" 
+        ref={fileInputRef} 
+        onChange={handleUpload} 
+        className="hidden" 
+        accept="image/*" 
+      />
+
       <div className="w-full max-w-md p-6 flex flex-col items-center">
         
-        {/* IDENTIFICAÇÃO VIP */}
+        {/* IDENTIFICAÇÃO VIP COM FOTO DINÂMICA */}
         <div className="mt-12 mb-8 flex flex-col items-center text-center">
-          <div className="relative mb-4 group">
-            <div className="w-28 h-28 rounded-full border-2 border-yellow-500 p-1 shadow-[0_0_30px_rgba(234,179,8,0.2)]">
-              <div className="w-full h-full rounded-full bg-zinc-900 flex items-center justify-center overflow-hidden">
-                <User size={48} className="text-zinc-700" />
+          <div className="relative mb-4 group cursor-pointer" onClick={() => fileInputRef.current?.click()}>
+            <div className="w-28 h-28 rounded-full border-2 border-yellow-500 p-1 shadow-[0_0_30px_rgba(234,179,8,0.2)] bg-zinc-900">
+              <div className="w-full h-full rounded-full bg-zinc-900 flex items-center justify-center overflow-hidden border border-white/5">
+                {fotoPerfil ? (
+                  <img src={fotoPerfil} alt="Perfil" className="w-full h-full object-cover" />
+                ) : (
+                  <User size={48} className="text-zinc-700" />
+                )}
               </div>
             </div>
             <button className="absolute bottom-0 right-0 bg-yellow-600 p-2.5 rounded-2xl border-4 border-black active:scale-90 transition-all">
@@ -53,7 +84,7 @@ export default function Perfil() {
           </Link>
         </div>
 
-        {/* VOICE HISTORY (RESTAURADO) */}
+        {/* VOICE HISTORY (MANTIDO) */}
         <section className="w-full mb-10">
           <div className="flex items-center justify-between px-4 mb-4">
             <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-600 italic leading-none text-center">Voice History</h3>
@@ -77,7 +108,7 @@ export default function Perfil() {
           </div>
         </section>
 
-        {/* MENU DE OPÇÕES */}
+        {/* MENU DE OPÇÕES (MANTIDO) */}
         <div className="w-full space-y-3">
           <Link href="/perfil/social" className="block w-full">
             <button className="w-full bg-zinc-900/30 border border-white/5 p-6 rounded-[2.2rem] flex items-center justify-between group active:scale-95 transition-all">
